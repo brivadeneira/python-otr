@@ -7,8 +7,8 @@ from struct import Struct, pack
 __all__ = ('Data', 'MPI', 'bytes_to_long', 'long_to_bytes', 'pack_data', 'pack_mpi', 'read_format', 'read_data', 'read_mpi', 'read_content')
 
 
-class Data: __metaclass__ = MarkerType
-class MPI:  __metaclass__ = MarkerType
+class Data(metaclass=MarkerType): pass
+class MPI(metaclass=MarkerType):  pass
 
 
 def bytes_to_long(string):

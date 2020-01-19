@@ -30,9 +30,7 @@ __all__ = ('QueryMessage', 'TaggedPlaintextMessage', 'ErrorMessage', 'MessageFra
 # OTR messages
 #
 
-class GlobalMessage(object):
-    __metaclass__ = ABCMeta
-
+class GlobalMessage(object, metaclass=ABCMeta):
     @abstractmethod
     def encode(self):
         raise NotImplementedError
@@ -50,7 +48,7 @@ class QueryMessage(GlobalMessage):
         return '{0.__class__.__name__}(versions={0.versions!r})'.format(self)
 
     def encode(self):
-        message = u'I would like to start an Off-the-Record private conversation, but you do not seem to support that.'
+        message = 'I would like to start an Off-the-Record private conversation, but you do not seem to support that.'
         if self.versions == {1}:
             return '?OTR?  {message}'.format(message=message.encode('utf-8'))
         elif 1 in self.versions:
@@ -115,7 +113,7 @@ class TaggedPlaintextMessage(GlobalMessage):
             if len(token) != 8 or set(token) != {'\x20', '\x09'}:
                 break
             version_tags.append(token)
-        versions = {version for version, tag in cls.__tag__.versions.items() if tag in version_tags}
+        versions = {version for version, tag in list(cls.__tag__.versions.items()) if tag in version_tags}
         tag_end = tag_start + 16 + 8*len(version_tags)
 
         original_message = message[:tag_start] + message[tag_end:]
@@ -166,9 +164,7 @@ class EncodedMessageType(ABCMeta):
         return mcls.__classes__[type]
 
 
-class EncodedMessage(object):
-    __metaclass__ = EncodedMessageType
-
+class EncodedMessage(object, metaclass=EncodedMessageType):
     __type__ = None
     __header__ = None
 
@@ -426,9 +422,7 @@ class TLVRecordType(ABCMeta):
         return mcls.__classes__[type]
 
 
-class TLVRecord(object):
-    __metaclass__ = TLVRecordType
-
+class TLVRecord(object, metaclass=TLVRecordType):
     __type__ = None
 
     __header__ = Struct('!HH')
@@ -657,7 +651,7 @@ class ExtraKeyTLV(TLVRecord):
     __type__ = 8
 
     def __init__(self, scope, data=None):
-        if not isinstance(scope, basestring) or not isinstance(data, (basestring, type(None))):
+        if not isinstance(scope, str) or not isinstance(data, (str, type(None))):
             raise TypeError("scope must be a string and data must be a string or None")
         if len(scope) != 4:
             raise ValueError("scope must be a 4 character string")
@@ -882,7 +876,7 @@ class AuthenticatedKeyExchange(object):
     @gy.setter
     def gy(self, value):
         self.__dict__['gy'] = value
-        self.__dict__['secret'] = long(powmod(value, self.dh_key, self.dh_key.prime)) if value is not None else None
+        self.__dict__['secret'] = int(powmod(value, self.dh_key, self.dh_key.prime)) if value is not None else None
 
 
 class SocialistMillionairesProtocol(object):
@@ -992,7 +986,7 @@ def smp_message_handler(expected_state):
                 elif self.smp.state is not expected_state:
                     raise ValueError('received {0.__class__.__name__} out of order'.format(tlv))
                 function(self, tlv)
-            except ValueError, e:
+            except ValueError as e:
                 self._smp_terminate(status=SMPStatus.ProtocolError, reason=str(e), send_abort=True)
         return function_wrapper
     return smp_message_handler_wrapper
@@ -1031,9 +1025,7 @@ class OTRProtocolType(ABCMeta):
         return mcls.__markers__[marker]
 
 
-class OTRProtocol(object):
-    __metaclass__ = OTRProtocolType
-
+class OTRProtocol(object, metaclass=OTRProtocolType):
     __version__ = None
 
     __header__ = None
@@ -1264,7 +1256,7 @@ class OTRProtocol(object):
             error = "Invalid session key requested"
             self.send_message(ErrorMessage(error))
             raise EncryptedMessageError(error)
-        except ValueError, e:
+        except ValueError as e:
             error = str(e)
             self.send_message(ErrorMessage(error))
             raise EncryptedMessageError(error)

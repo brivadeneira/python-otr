@@ -13,9 +13,7 @@ from otr.__info__ import __project__, __summary__, __webpage__, __version__, __a
 __all__ = ('OTRSession', 'OTRTransport', 'GenericOTRTransport', 'OTRState', 'SMPStatus')
 
 
-class OTRTransport(object):
-    __metaclass__ = ABCMeta
-
+class OTRTransport(object, metaclass=ABCMeta):
     @abstractmethod
     def inject_otr_message(self, message):
         raise NotImplementedError
