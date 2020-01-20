@@ -2,7 +2,7 @@
 from abc import ABCMeta, abstractmethod
 from application.notification import NotificationCenter, NotificationData, IObserver
 from application.python import Null
-from zope.interface import implements
+from zope.interface import implementer
 
 from otr.cryptography import PrivateKey
 from otr.exceptions import IgnoreMessage, UnencryptedMessage, OTRError
@@ -26,9 +26,9 @@ class GenericOTRTransport(OTRTransport):
     def inject_otr_message(self, message):
         return self._send_message(message)
 
-
+@implementer(IObserver)
 class OTRSession(object):
-    implements(IObserver)
+
 
     def __init__(self, private_key, transport, supported_versions=OTRProtocol.supported_versions):
         if not isinstance(private_key, PrivateKey):

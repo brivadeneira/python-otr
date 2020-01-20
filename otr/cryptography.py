@@ -182,7 +182,7 @@ class SMPExponent(DHGroupNumber):
         return super(SMPExponent, cls).__new__(cls, value)
 
 
-class SMPHash(long):
+class SMPHash(int):
     def __new__(cls, value):
         if not 1 <= value.bit_length() <= 256:
             raise ValueError('invalid SMP hash')

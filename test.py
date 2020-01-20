@@ -8,15 +8,15 @@ from application.notification import IObserver, NotificationCenter
 from application.python import Null
 from application.python.queue import EventQueue
 from threading import Event
-from zope.interface import implements
+from zope.interface import implementer
 
 from otr import OTRTransport, OTRSession, OTRState, SMPStatus
 from otr.cryptography import DSAPrivateKey
 from otr.exceptions import IgnoreMessage
 
 
+@implementer(IObserver)
 class DataConnection(object):
-    implements(IObserver)
 
     def __init__(self, name):
         self.name = name
@@ -109,8 +109,8 @@ class DataConnection(object):
 OTRTransport.register(DataConnection)
 
 
+@implementer(IObserver)
 class NotificationObserver(object):
-    implements(IObserver)
 
     def start(self):
         notification_center = NotificationCenter()
