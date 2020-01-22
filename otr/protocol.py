@@ -1,3 +1,4 @@
+import snoop
 
 import re
 
@@ -47,34 +48,39 @@ class QueryMessage(GlobalMessage):
     def __repr__(self):
         return '{0.__class__.__name__}(versions={0.versions!r})'.format(self)
 
+    @snoop
     def encode(self):
-        message = 'I would like to start an Off-the-Record private conversation, but you do not seem to support that.'
+        message = b'I would like to start an Off-the-Record private conversation, but you do not seem to support that.'
         if self.versions == {1}:
-            return '?OTR?  {message}'.format(message=message.encode('utf-8'))
+            return b'?OTR?  {message}'.format(message=message)
         elif 1 in self.versions:
-            return '?OTR?v{versions}?  {message}'.format(versions=''.join(str(x) for x in self.versions if x != 1), message=message.encode('utf-8'))
+#            return b'?OTR?v{versions}?  {message}'.format(versions=''.join(str(x) for x in self.versions if x != 1), message=message)
+            vs = self.versions
+            return b'?OTRv%b?  %b' % ( b'?OTRv%b?  %b' % (str.encode(''.join(str(x) for x in self.versions if x != 1))), message)
         else:
-            return '?OTRv{versions}?  {message}'.format(versions=''.join(str(x) for x in self.versions), message=message.encode('utf-8'))
+#            return b'?OTRv{versions}?  {message}'.format(versions=''.join(str(x) for x in self.versions), message=message)
+            return b'?OTRv%b?  %b' % (str.encode(''.join(str(x) for x in self.versions)), message)
 
     @classmethod
+    @snoop
     def decode(cls, message):
-        if not message.startswith('?OTR'):
+        if not message.startswith(b'?OTR'):
             raise ValueError("Not an OTR query message")
 
         versions = set()
 
-        if message.startswith('?OTR?v'):
-            versions_string, sep, _ = message[6:].partition('?')
-            if sep != '?':
+        if message.startswith(b'?OTR?v'):
+            versions_string, sep, _ = message[6:].partition(b'?')
+            if sep != b'?':
                 raise ValueError("Invalid OTR query message")
             versions.add(1)
-            versions.update(int(x) if x.isdigit() else x for x in versions_string)
-        elif message.startswith('?OTRv'):
-            versions_string, sep, _ = message[5:].partition('?')
-            if sep != '?':
+            versions.update(int(x) if str(x).isdigit() else x for x in versions_string)
+        elif message.startswith(b'?OTRv'):
+            versions_string, sep, _ = message[5:].partition(b'?')
+            if sep != b'?':
                 raise ValueError("Invalid OTR query message")
-            versions.update(int(x) if x.isdigit() else x for x in versions_string)
-        elif message.startswith('?OTR?'):
+            versions.update(int(x) if str(x).isdigit() else x for x in versions_string)
+        elif message.startswith(b'?OTR?'):
             versions.add(1)
         else:
             raise ValueError("Invalid OTR query message")
@@ -84,8 +90,8 @@ class QueryMessage(GlobalMessage):
 
 class TaggedPlaintextMessage(GlobalMessage):
     class __tag__:
-        prefix = '\x20\x09\x20\x20\x09\x09\x09\x09\x20\x09\x20\x09\x20\x09\x20\x20'
-        versions = {1: '\x20\x09\x20\x09\x20\x20\x09\x20', 2: '\x20\x20\x09\x09\x20\x20\x09\x20', 3: '\x20\x20\x09\x09\x20\x20\x09\x09'}
+        prefix = b'\x20\x09\x20\x20\x09\x09\x09\x09\x20\x09\x20\x09\x20\x09\x20\x20'
+        versions = {1: b'\x20\x09\x20\x09\x20\x20\x09\x20', 2: b'\x20\x20\x09\x09\x20\x20\x09\x20', 3: b'\x20\x20\x09\x09\x20\x20\x09\x09'}
 
     def __init__(self, message, versions=None):
         self.message = message
@@ -110,7 +116,7 @@ class TaggedPlaintextMessage(GlobalMessage):
         version_tags = []
         for position in range(tag_start + 16, len(message), 8):
             token = message[position:position+8]
-            if len(token) != 8 or set(token) != {'\x20', '\x09'}:
+            if len(token) != 8 or set(token) != {b'\x20', b'\x09'}:
                 break
             version_tags.append(token)
         versions = {version for version, tag in list(cls.__tag__.versions.items()) if tag in version_tags}
@@ -129,11 +135,11 @@ class ErrorMessage(GlobalMessage):
         return '{0.__class__.__name__}(error={0.error!r})'.format(self)
 
     def encode(self):
-        return '?OTR Error:{0.error}'.format(self)
+        return b'?OTR Error:{0.error}'.format(self)
 
     @classmethod
     def decode(cls, message):
-        if not message.startswith('?OTR Error:'):
+        if not message.startswith(b'?OTR Error:'):
             raise ValueError("Not an OTR error message")
         return cls(message[11:])
 
@@ -169,11 +175,12 @@ class EncodedMessage(object, metaclass=EncodedMessageType):
     __header__ = None
 
     def encode(self):
-        return '?OTR:' + base64_encode(self.__header__ + self.pack_data())[:-1] + '.'
+        #return '?OTR:' + base64_encode(self.__header__ + self.pack_data())[:-1] + '.'
+        return b'?OTR:' + base64_encode(self.__header__ + self.pack_data())[:-1] + b'.'
 
     @classmethod
     def decode(cls, message, protocol):
-        if not message.startswith('?OTR:') or not message.endswith('.'):
+        if not message.startswith(b'?OTR:') or not message.endswith('.'):
             raise ValueError("Not an OTR message")
         try:
             message = base64_decode(message[5:-1])

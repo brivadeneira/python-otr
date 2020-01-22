@@ -1,3 +1,4 @@
+import snoop
 
 from abc import ABCMeta, abstractmethod
 from application.notification import NotificationCenter, NotificationData, IObserver
@@ -116,20 +117,20 @@ class OTRSession(object):
 
     def handle_input(self, content, content_type):
         # handle fragments
-        if content.startswith(('?OTR|', '?OTR,')):
+        if content.startswith((b'?OTR|', b'?OTR,')):
             content = self.fragment_handler.process(content, protocol=self.protocol)
         else:
             self.fragment_handler.reset()
 
         # handle OTR messages
-        if content.startswith('?OTR:'):
+        if content.startswith(b'?OTR:'):
             if self.protocol is None and self.sent_query and content[OTRProtocol.marker_slice] in OTRProtocol.commit_markers:
                 protocol_class = OTRProtocol.with_marker(content[OTRProtocol.marker_slice])
                 if protocol_class.__version__ in self.supported_versions:
                     self.protocol = protocol_class(self)
             if self.protocol is not None:
                 return self.protocol.handle_input(content, content_type)
-        elif content.startswith('?OTR'):
+        elif content.startswith(b'?OTR'):
             try:
                 query = QueryMessage.decode(content)
             except ValueError:
