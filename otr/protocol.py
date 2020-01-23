@@ -1,4 +1,3 @@
-import snoop
 
 import re
 
@@ -48,7 +47,6 @@ class QueryMessage(GlobalMessage):
     def __repr__(self):
         return '{0.__class__.__name__}(versions={0.versions!r})'.format(self)
 
-    @snoop
     def encode(self):
         message = b'I would like to start an Off-the-Record private conversation, but you do not seem to support that.'
         if self.versions == {1}:
@@ -62,7 +60,6 @@ class QueryMessage(GlobalMessage):
             return b'?OTRv%b?  %b' % (str.encode(''.join(str(x) for x in self.versions)), message)
 
     @classmethod
-    @snoop
     def decode(cls, message):
         if not message.startswith(b'?OTR'):
             raise ValueError("Not an OTR query message")

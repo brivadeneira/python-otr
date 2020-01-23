@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import snoop
 import time
 import unittest
 
@@ -147,7 +147,7 @@ class OTRTest(unittest.TestCase):
     def tearDown(self):
         self.local_endpoint.disconnect()
         self.remote_endpoint.disconnect()
-
+    @snoop
     def test_ake_one_way(self):
         self.local_endpoint.start_otr()
         self.local_endpoint.ake_done.wait(1)
