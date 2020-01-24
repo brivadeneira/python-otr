@@ -1,5 +1,4 @@
 #!/usr/bin/python
-import snoop
 import time
 import unittest
 
@@ -17,7 +16,6 @@ from otr.exceptions import IgnoreMessage
 
 @implementer(IObserver)
 class DataConnection(object):
-
     def __init__(self, name):
         self.name = name
         self.secret = None
@@ -137,7 +135,6 @@ class OTRTest(unittest.TestCase):
     def tearDownClass(cls):
         cls.notification_observer.stop()
         cls.notification_observer = None
-
     def setUp(self):
         self.local_endpoint = DataConnection('local')
         self.remote_endpoint = DataConnection('remote')
@@ -147,7 +144,7 @@ class OTRTest(unittest.TestCase):
     def tearDown(self):
         self.local_endpoint.disconnect()
         self.remote_endpoint.disconnect()
-    @snoop
+
     def test_ake_one_way(self):
         self.local_endpoint.start_otr()
         self.local_endpoint.ake_done.wait(1)

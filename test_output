@@ -1,0 +1,725 @@
+test_ake_one_way (__main__.OTRTest) ... WARNING  [python] /home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/cheap_repr/__init__.py:185: ReprSuppressedWarning: Exception 'AssertionError: Thread.__init__() was not called' in repr_object for object of type EventQueue. The repr has been suppressed for this type.
+WARNING  [python]   (exception_string(e), func.__name__, safe_qualname(cls))))
+23:02:01.02 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:01.02 .......... self = <EventQueue instance at 0x7f31f42a2d50 (exception in repr)>
+23:02:01.02 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f42a2ad0>>
+23:02:01.02 .......... name = None
+23:02:01.02 .......... preload = ()
+23:02:01.02   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:01.02 .......... self = <EventQueue instance at 0x7f31f42a2d50 (repr suppressed)>
+23:02:01.02   24 |         if not callable(handler):
+23:02:01.02   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:01.02   27 |         self.setDaemon(True)
+23:02:01.02   28 |         self._exit = Event()
+23:02:01.02   29 |         self._active = Event()
+23:02:01.02   30 |         self._pause_counter = 0
+23:02:01.02   31 |         self._pause_lock = Lock()
+23:02:01.02   32 |         self._accepting_events = True
+23:02:01.02   33 |         self.queue = queue.Queue()
+23:02:01.02   34 |         self.handle = handler
+23:02:01.02   35 |         self.load(preload)
+23:02:01.02   36 |         self._active.set()
+23:02:01.02 <<< Return value from EventQueue.__init__: None
+23:02:01.02 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:01.02 .......... self = <EventQueue instance at 0x7f31f42a2d50 (repr suppressed)>
+23:02:01.02   38 |     def run(self):
+23:02:01.02   40 |         while not self._exit.isSet():
+23:02:01.02   41 |             self._active.wait()
+23:02:01.02   42 |             event = self.queue.get()
+23:02:01.25 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:01.25 .......... self = <EventQueue instance at 0x7f31f3fe1550 (repr suppressed)>
+23:02:01.25 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3fe13d0>>
+23:02:01.25 .......... name = None
+23:02:01.25 .......... preload = ()
+23:02:01.25   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:01.25   24 |         if not callable(handler):
+23:02:01.25   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:01.25   27 |         self.setDaemon(True)
+23:02:01.25   28 |         self._exit = Event()
+23:02:01.25   29 |         self._active = Event()
+23:02:01.25   30 |         self._pause_counter = 0
+23:02:01.25   31 |         self._pause_lock = Lock()
+23:02:01.25   32 |         self._accepting_events = True
+23:02:01.25   33 |         self.queue = queue.Queue()
+23:02:01.25   34 |         self.handle = handler
+23:02:01.25   35 |         self.load(preload)
+23:02:01.25   36 |         self._active.set()
+23:02:01.26 <<< Return value from EventQueue.__init__: None
+23:02:01.26 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:01.26 .......... self = <EventQueue instance at 0x7f31f3fe1550 (repr suppressed)>
+23:02:01.26   38 |     def run(self):
+23:02:01.26   40 |         while not self._exit.isSet():
+23:02:01.26   41 |             self._active.wait()
+23:02:01.26   42 |             event = self.queue.get()
+23:02:01.26   42 |             event = self.queue.get()
+23:02:01.26 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:01.26 .................. len(event) = 108
+23:02:01.26   43 |             if event is StopProcessing:
+23:02:01.26   46 |             try:
+23:02:01.26   47 |                 self.handle(event)
+23:02:01.27   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:01.27   40 |         while not self._exit.isSet():
+23:02:01.27   41 |             self._active.wait()
+23:02:01.27   42 |             event = self.queue.get()
+23:02:03.26   42 |             event = self.queue.get()
+23:02:03.26 .................. event = StopProcessing
+23:02:03.26   43 |             if event is StopProcessing:
+23:02:03.26   44 |                 break
+23:02:03.26 <<< Return value from EventQueue.run: None
+23:02:03.26   42 |             event = self.queue.get()
+23:02:03.26 .................. event = StopProcessing
+23:02:03.26   43 |             if event is StopProcessing:
+23:02:03.26   44 |                 break
+23:02:03.26 <<< Return value from EventQueue.run: None
+FAIL
+test_ake_two_way (__main__.OTRTest) ... 23:02:03.63 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:03.63 .......... self = <EventQueue instance at 0x7f31f3fe1f50 (repr suppressed)>
+23:02:03.63 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f42a28d0>>
+23:02:03.63 .......... name = None
+23:02:03.63 .......... preload = ()
+23:02:03.63   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:03.63   24 |         if not callable(handler):
+23:02:03.64   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:03.64   27 |         self.setDaemon(True)
+23:02:03.64   28 |         self._exit = Event()
+23:02:03.64   29 |         self._active = Event()
+23:02:03.64   30 |         self._pause_counter = 0
+23:02:03.64   31 |         self._pause_lock = Lock()
+23:02:03.64   32 |         self._accepting_events = True
+23:02:03.64   33 |         self.queue = queue.Queue()
+23:02:03.64   34 |         self.handle = handler
+23:02:03.64   35 |         self.load(preload)
+23:02:03.64   36 |         self._active.set()
+23:02:03.64 <<< Return value from EventQueue.__init__: None
+23:02:03.64 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:03.64 .......... self = <EventQueue instance at 0x7f31f3fe1f50 (repr suppressed)>
+23:02:03.64   38 |     def run(self):
+23:02:03.64   40 |         while not self._exit.isSet():
+23:02:03.64   41 |             self._active.wait()
+23:02:03.64   42 |             event = self.queue.get()
+23:02:03.74 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:03.74 .......... self = <EventQueue instance at 0x7f31f3feb090 (repr suppressed)>
+23:02:03.74 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3fe1650>>
+23:02:03.74 .......... name = None
+23:02:03.74 .......... preload = ()
+23:02:03.74   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:03.74   24 |         if not callable(handler):
+23:02:03.74   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:03.74   27 |         self.setDaemon(True)
+23:02:03.74   28 |         self._exit = Event()
+23:02:03.74   29 |         self._active = Event()
+23:02:03.74   30 |         self._pause_counter = 0
+23:02:03.74   31 |         self._pause_lock = Lock()
+23:02:03.74   32 |         self._accepting_events = True
+23:02:03.74   33 |         self.queue = queue.Queue()
+23:02:03.74   34 |         self.handle = handler
+23:02:03.74   35 |         self.load(preload)
+23:02:03.74   36 |         self._active.set()
+23:02:03.75 <<< Return value from EventQueue.__init__: None
+23:02:03.75 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:03.75 .......... self = <EventQueue instance at 0x7f31f3feb090 (repr suppressed)>
+23:02:03.75   38 |     def run(self):
+23:02:03.75   40 |         while not self._exit.isSet():
+23:02:03.75   41 |             self._active.wait()
+23:02:03.75   42 |             event = self.queue.get()
+23:02:03.75   42 |             event = self.queue.get()
+23:02:03.75 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:03.75 .................. len(event) = 108
+23:02:03.75   43 |             if event is StopProcessing:
+23:02:03.75   46 |             try:
+23:02:03.75   47 |                 self.handle(event)
+23:02:03.75   42 |             event = self.queue.get()
+23:02:03.75 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:03.75 .................. len(event) = 108
+23:02:03.75   43 |             if event is StopProcessing:
+23:02:03.75   46 |             try:
+23:02:03.75   47 |                 self.handle(event)
+23:02:03.76   47 |                 self.handle(event)
+23:02:03.76   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:03.76   40 |         while not self._exit.isSet():
+23:02:03.76   41 |             self._active.wait()
+23:02:03.76   42 |             event = self.queue.get()
+23:02:03.76   47 |                 self.handle(event)
+23:02:03.76   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:03.76   40 |         while not self._exit.isSet():
+23:02:03.76   41 |             self._active.wait()
+23:02:03.76   42 |             event = self.queue.get()
+FAIL
+test_otr_shutdown_one_way (__main__.OTRTest) ... 23:02:05.75 .................. event = StopProcessing
+23:02:05.75   43 |             if event is StopProcessing:
+23:02:05.75   44 |                 break
+23:02:05.75 <<< Return value from EventQueue.run: None
+23:02:05.75   42 |             event = self.queue.get()
+23:02:05.75 .................. event = StopProcessing
+23:02:05.75   43 |             if event is StopProcessing:
+23:02:05.75   44 |                 break
+23:02:05.75 <<< Return value from EventQueue.run: None
+23:02:06.15 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:06.15 .......... self = <EventQueue instance at 0x7f31f3feb850 (repr suppressed)>
+23:02:06.15 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3fe1e50>>
+23:02:06.15 .......... name = None
+23:02:06.15 .......... preload = ()
+23:02:06.15   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:06.15   24 |         if not callable(handler):
+23:02:06.15   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:06.15   27 |         self.setDaemon(True)
+23:02:06.15   28 |         self._exit = Event()
+23:02:06.15   29 |         self._active = Event()
+23:02:06.15   30 |         self._pause_counter = 0
+23:02:06.15   31 |         self._pause_lock = Lock()
+23:02:06.15   32 |         self._accepting_events = True
+23:02:06.15   33 |         self.queue = queue.Queue()
+23:02:06.15   34 |         self.handle = handler
+23:02:06.15   35 |         self.load(preload)
+23:02:06.15   36 |         self._active.set()
+23:02:06.15 <<< Return value from EventQueue.__init__: None
+23:02:06.15 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:06.15 .......... self = <EventQueue instance at 0x7f31f3feb850 (repr suppressed)>
+23:02:06.15   38 |     def run(self):
+23:02:06.15   40 |         while not self._exit.isSet():
+23:02:06.15   41 |             self._active.wait()
+23:02:06.15   42 |             event = self.queue.get()
+23:02:06.54 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:06.54 .......... self = <EventQueue instance at 0x7f31f3feb910 (repr suppressed)>
+23:02:06.54 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3feb590>>
+23:02:06.54 .......... name = None
+23:02:06.54 .......... preload = ()
+23:02:06.54   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:06.54   24 |         if not callable(handler):
+23:02:06.54   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:06.54   27 |         self.setDaemon(True)
+23:02:06.54   28 |         self._exit = Event()
+23:02:06.54   29 |         self._active = Event()
+23:02:06.54   30 |         self._pause_counter = 0
+23:02:06.54   31 |         self._pause_lock = Lock()
+23:02:06.54   32 |         self._accepting_events = True
+23:02:06.54   33 |         self.queue = queue.Queue()
+23:02:06.54   34 |         self.handle = handler
+23:02:06.54   35 |         self.load(preload)
+23:02:06.54   36 |         self._active.set()
+23:02:06.54 <<< Return value from EventQueue.__init__: None
+23:02:06.54 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:06.54 .......... self = <EventQueue instance at 0x7f31f3feb910 (repr suppressed)>
+23:02:06.54   38 |     def run(self):
+23:02:06.54   40 |         while not self._exit.isSet():
+23:02:06.54   41 |             self._active.wait()
+23:02:06.55   42 |             event = self.queue.get()
+23:02:06.55   42 |             event = self.queue.get()
+23:02:06.55 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:06.55 .................. len(event) = 108
+23:02:06.55   43 |             if event is StopProcessing:
+23:02:06.55   46 |             try:
+23:02:06.55   47 |                 self.handle(event)
+23:02:06.55   42 |             event = self.queue.get()
+23:02:06.55 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:06.55 .................. len(event) = 108
+23:02:06.55   43 |             if event is StopProcessing:
+23:02:06.55   46 |             try:
+23:02:06.55   47 |                 self.handle(event)
+23:02:06.56   47 |                 self.handle(event)
+23:02:06.56   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:06.56   40 |         while not self._exit.isSet():
+23:02:06.56   41 |             self._active.wait()
+23:02:06.56   42 |             event = self.queue.get()
+23:02:06.56   47 |                 self.handle(event)
+23:02:06.56   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:06.56   40 |         while not self._exit.isSet():
+23:02:06.56   41 |             self._active.wait()
+23:02:06.56   42 |             event = self.queue.get()
+FAIL
+test_otr_shutdown_two_way (__main__.OTRTest) ... 23:02:10.55 .................. event = StopProcessing
+23:02:10.55   43 |             if event is StopProcessing:
+23:02:10.55   44 |                 break
+23:02:10.55 <<< Return value from EventQueue.run: None
+23:02:10.55   42 |             event = self.queue.get()
+23:02:10.55 .................. event = StopProcessing
+23:02:10.55   43 |             if event is StopProcessing:
+23:02:10.55   44 |                 break
+23:02:10.55 <<< Return value from EventQueue.run: None
+23:02:10.70 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:10.70 .......... self = <EventQueue instance at 0x7f31f3feb910 (repr suppressed)>
+23:02:10.70 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3fd9510>>
+23:02:10.70 .......... name = None
+23:02:10.70 .......... preload = ()
+23:02:10.70   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:10.70   24 |         if not callable(handler):
+23:02:10.70   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:10.70   27 |         self.setDaemon(True)
+23:02:10.70   28 |         self._exit = Event()
+23:02:10.70   29 |         self._active = Event()
+23:02:10.70   30 |         self._pause_counter = 0
+23:02:10.70   31 |         self._pause_lock = Lock()
+23:02:10.70   32 |         self._accepting_events = True
+23:02:10.70   33 |         self.queue = queue.Queue()
+23:02:10.70   34 |         self.handle = handler
+23:02:10.70   35 |         self.load(preload)
+23:02:10.70   36 |         self._active.set()
+23:02:10.70 <<< Return value from EventQueue.__init__: None
+23:02:10.70 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:10.70 .......... self = <EventQueue instance at 0x7f31f3feb910 (repr suppressed)>
+23:02:10.70   38 |     def run(self):
+23:02:10.70   40 |         while not self._exit.isSet():
+23:02:10.70   41 |             self._active.wait()
+23:02:10.70   42 |             event = self.queue.get()
+23:02:10.79 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:10.79 .......... self = <EventQueue instance at 0x7f31f3febdd0 (repr suppressed)>
+23:02:10.79 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3feb890>>
+23:02:10.79 .......... name = None
+23:02:10.79 .......... preload = ()
+23:02:10.79   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:10.79   24 |         if not callable(handler):
+23:02:10.79   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:10.79   27 |         self.setDaemon(True)
+23:02:10.79   28 |         self._exit = Event()
+23:02:10.79   29 |         self._active = Event()
+23:02:10.79   30 |         self._pause_counter = 0
+23:02:10.79   31 |         self._pause_lock = Lock()
+23:02:10.79   32 |         self._accepting_events = True
+23:02:10.79   33 |         self.queue = queue.Queue()
+23:02:10.79   34 |         self.handle = handler
+23:02:10.79   35 |         self.load(preload)
+23:02:10.79   36 |         self._active.set()
+23:02:10.79 <<< Return value from EventQueue.__init__: None
+23:02:10.79 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:10.79 .......... self = <EventQueue instance at 0x7f31f3febdd0 (repr suppressed)>
+23:02:10.79   38 |     def run(self):
+23:02:10.79   40 |         while not self._exit.isSet():
+23:02:10.79   41 |             self._active.wait()
+23:02:10.79   42 |             event = self.queue.get()
+23:02:10.79   42 |             event = self.queue.get()
+23:02:10.79 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:10.79 .................. len(event) = 108
+23:02:10.79   43 |             if event is StopProcessing:
+23:02:10.79   46 |             try:
+23:02:10.79   47 |                 self.handle(event)
+23:02:10.79   42 |             event = self.queue.get()
+23:02:10.79 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:10.79 .................. len(event) = 108
+23:02:10.79   43 |             if event is StopProcessing:
+23:02:10.79   46 |             try:
+23:02:10.79   47 |                 self.handle(event)
+23:02:10.80   47 |                 self.handle(event)
+23:02:10.80   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:10.80   40 |         while not self._exit.isSet():
+23:02:10.80   41 |             self._active.wait()
+23:02:10.80   42 |             event = self.queue.get()
+23:02:10.80   47 |                 self.handle(event)
+23:02:10.81   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:10.81   40 |         while not self._exit.isSet():
+23:02:10.81   41 |             self._active.wait()
+23:02:10.81   42 |             event = self.queue.get()
+ok
+test_smp_different_secret (__main__.OTRTest) ... 23:02:14.79   42 |             event = self.queue.get()
+23:02:14.79 .................. event = StopProcessing
+23:02:14.79   43 |             if event is StopProcessing:
+23:02:14.79   44 |                 break
+23:02:14.79 <<< Return value from EventQueue.run: None
+23:02:14.80   42 |             event = self.queue.get()
+23:02:14.80 .................. event = StopProcessing
+23:02:14.80   43 |             if event is StopProcessing:
+23:02:14.80   44 |                 break
+23:02:14.80 <<< Return value from EventQueue.run: None
+23:02:15.03 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:15.03 .......... self = <EventQueue instance at 0x7f31f3fd0a50 (repr suppressed)>
+23:02:15.03 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3fd9050>>
+23:02:15.03 .......... name = None
+23:02:15.03 .......... preload = ()
+23:02:15.03   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:15.03   24 |         if not callable(handler):
+23:02:15.03   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:15.03   27 |         self.setDaemon(True)
+23:02:15.03   28 |         self._exit = Event()
+23:02:15.03   29 |         self._active = Event()
+23:02:15.03   30 |         self._pause_counter = 0
+23:02:15.03   31 |         self._pause_lock = Lock()
+23:02:15.03   32 |         self._accepting_events = True
+23:02:15.03   33 |         self.queue = queue.Queue()
+23:02:15.03   34 |         self.handle = handler
+23:02:15.03   35 |         self.load(preload)
+23:02:15.03   36 |         self._active.set()
+23:02:15.03 <<< Return value from EventQueue.__init__: None
+23:02:15.03 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:15.03 .......... self = <EventQueue instance at 0x7f31f3fd0a50 (repr suppressed)>
+23:02:15.03   38 |     def run(self):
+23:02:15.03   40 |         while not self._exit.isSet():
+23:02:15.03   41 |             self._active.wait()
+23:02:15.03   42 |             event = self.queue.get()
+23:02:15.14 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:15.14 .......... self = <EventQueue instance at 0x7f31f3ff4190 (repr suppressed)>
+23:02:15.14 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3ff4450>>
+23:02:15.14 .......... name = None
+23:02:15.14 .......... preload = ()
+23:02:15.14   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:15.14   24 |         if not callable(handler):
+23:02:15.14   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:15.14   27 |         self.setDaemon(True)
+23:02:15.14   28 |         self._exit = Event()
+23:02:15.14   29 |         self._active = Event()
+23:02:15.14   30 |         self._pause_counter = 0
+23:02:15.15   31 |         self._pause_lock = Lock()
+23:02:15.15   32 |         self._accepting_events = True
+23:02:15.15   33 |         self.queue = queue.Queue()
+23:02:15.15   34 |         self.handle = handler
+23:02:15.15   35 |         self.load(preload)
+23:02:15.15   36 |         self._active.set()
+23:02:15.15 <<< Return value from EventQueue.__init__: None
+23:02:15.15 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:15.15 .......... self = <EventQueue instance at 0x7f31f3ff4190 (repr suppressed)>
+23:02:15.15   38 |     def run(self):
+23:02:15.15   40 |         while not self._exit.isSet():
+23:02:15.15   41 |             self._active.wait()
+23:02:15.15   42 |             event = self.queue.get()
+23:02:15.15   42 |             event = self.queue.get()
+23:02:15.15 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:15.15 .................. len(event) = 108
+23:02:15.15   43 |             if event is StopProcessing:
+23:02:15.15   46 |             try:
+23:02:15.15   47 |                 self.handle(event)
+23:02:15.15   42 |             event = self.queue.get()
+23:02:15.15 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:15.15 .................. len(event) = 108
+23:02:15.15   43 |             if event is StopProcessing:
+23:02:15.15   46 |             try:
+23:02:15.15   47 |                 self.handle(event)
+23:02:15.16   47 |                 self.handle(event)
+23:02:15.16   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:15.16   40 |         while not self._exit.isSet():
+23:02:15.16   41 |             self._active.wait()
+23:02:15.16   42 |             event = self.queue.get()
+23:02:15.16   47 |                 self.handle(event)
+23:02:15.16   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:15.16   40 |         while not self._exit.isSet():
+23:02:15.16   41 |             self._active.wait()
+23:02:15.16   42 |             event = self.queue.get()
+FAIL
+test_smp_same_secret (__main__.OTRTest) ... 23:02:17.15 .................. event = StopProcessing
+23:02:17.15   43 |             if event is StopProcessing:
+23:02:17.15   44 |                 break
+23:02:17.15 <<< Return value from EventQueue.run: None
+23:02:17.15   42 |             event = self.queue.get()
+23:02:17.15 .................. event = StopProcessing
+23:02:17.15   43 |             if event is StopProcessing:
+23:02:17.15   44 |                 break
+23:02:17.15 <<< Return value from EventQueue.run: None
+23:02:17.44 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:17.44 .......... self = <EventQueue instance at 0x7f31f3ff4710 (repr suppressed)>
+23:02:17.44 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3feba90>>
+23:02:17.44 .......... name = None
+23:02:17.44 .......... preload = ()
+23:02:17.44   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:17.44   24 |         if not callable(handler):
+23:02:17.44   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:17.44   27 |         self.setDaemon(True)
+23:02:17.44   28 |         self._exit = Event()
+23:02:17.44   29 |         self._active = Event()
+23:02:17.45   30 |         self._pause_counter = 0
+23:02:17.45   31 |         self._pause_lock = Lock()
+23:02:17.45   32 |         self._accepting_events = True
+23:02:17.45   33 |         self.queue = queue.Queue()
+23:02:17.45   34 |         self.handle = handler
+23:02:17.45   35 |         self.load(preload)
+23:02:17.45   36 |         self._active.set()
+23:02:17.45 <<< Return value from EventQueue.__init__: None
+23:02:17.45 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:17.45 .......... self = <EventQueue instance at 0x7f31f3ff4710 (repr suppressed)>
+23:02:17.45   38 |     def run(self):
+23:02:17.45   40 |         while not self._exit.isSet():
+23:02:17.45   41 |             self._active.wait()
+23:02:17.45   42 |             event = self.queue.get()
+23:02:17.52 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:17.52 .......... self = <EventQueue instance at 0x7f31f3ff4ad0 (repr suppressed)>
+23:02:17.52 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3ff4690>>
+23:02:17.52 .......... name = None
+23:02:17.52 .......... preload = ()
+23:02:17.52   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:17.52   24 |         if not callable(handler):
+23:02:17.52   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:17.52   27 |         self.setDaemon(True)
+23:02:17.52   28 |         self._exit = Event()
+23:02:17.52   29 |         self._active = Event()
+23:02:17.52   30 |         self._pause_counter = 0
+23:02:17.52   31 |         self._pause_lock = Lock()
+23:02:17.52   32 |         self._accepting_events = True
+23:02:17.53   33 |         self.queue = queue.Queue()
+23:02:17.53   34 |         self.handle = handler
+23:02:17.53   35 |         self.load(preload)
+23:02:17.53   36 |         self._active.set()
+23:02:17.53 <<< Return value from EventQueue.__init__: None
+23:02:17.53 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:17.53 .......... self = <EventQueue instance at 0x7f31f3ff4ad0 (repr suppressed)>
+23:02:17.53   38 |     def run(self):
+23:02:17.53   40 |         while not self._exit.isSet():
+23:02:17.53   41 |             self._active.wait()
+23:02:17.53   42 |             event = self.queue.get()
+23:02:17.53   42 |             event = self.queue.get()
+23:02:17.53 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:17.53 .................. len(event) = 108
+23:02:17.53   43 |             if event is StopProcessing:
+23:02:17.53   46 |             try:
+23:02:17.53   47 |                 self.handle(event)
+23:02:17.53   42 |             event = self.queue.get()
+23:02:17.53 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:17.53 .................. len(event) = 108
+23:02:17.53   43 |             if event is StopProcessing:
+23:02:17.53   46 |             try:
+23:02:17.53   47 |                 self.handle(event)
+23:02:17.54   47 |                 self.handle(event)
+23:02:17.54   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:17.54   40 |         while not self._exit.isSet():
+23:02:17.54   41 |             self._active.wait()
+23:02:17.54   42 |             event = self.queue.get()
+23:02:17.54   47 |                 self.handle(event)
+23:02:17.54   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:17.54   40 |         while not self._exit.isSet():
+23:02:17.54   41 |             self._active.wait()
+23:02:17.54   42 |             event = self.queue.get()
+FAIL
+test_smp_unavailable (__main__.OTRTest) ... 23:02:19.53 .................. event = StopProcessing
+23:02:19.53   43 |             if event is StopProcessing:
+23:02:19.53   44 |                 break
+23:02:19.53 <<< Return value from EventQueue.run: None
+23:02:19.53   42 |             event = self.queue.get()
+23:02:19.53 .................. event = StopProcessing
+23:02:19.53   43 |             if event is StopProcessing:
+23:02:19.53   44 |                 break
+23:02:19.53 <<< Return value from EventQueue.run: None
+23:02:19.67 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:19.67 .......... self = <EventQueue instance at 0x7f31f3ff4050 (repr suppressed)>
+23:02:19.67 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3fe1250>>
+23:02:19.67 .......... name = None
+23:02:19.67 .......... preload = ()
+23:02:19.67   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:19.67   24 |         if not callable(handler):
+23:02:19.67   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:19.67   27 |         self.setDaemon(True)
+23:02:19.67   28 |         self._exit = Event()
+23:02:19.67   29 |         self._active = Event()
+23:02:19.67   30 |         self._pause_counter = 0
+23:02:19.67   31 |         self._pause_lock = Lock()
+23:02:19.67   32 |         self._accepting_events = True
+23:02:19.67   33 |         self.queue = queue.Queue()
+23:02:19.67   34 |         self.handle = handler
+23:02:19.67   35 |         self.load(preload)
+23:02:19.67   36 |         self._active.set()
+23:02:19.67 <<< Return value from EventQueue.__init__: None
+23:02:19.67 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:19.67 .......... self = <EventQueue instance at 0x7f31f3ff4050 (repr suppressed)>
+23:02:19.67   38 |     def run(self):
+23:02:19.67   40 |         while not self._exit.isSet():
+23:02:19.67   41 |             self._active.wait()
+23:02:19.67   42 |             event = self.queue.get()
+23:02:19.78 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:19.78 .......... self = <EventQueue instance at 0x7f31f3ffb190 (repr suppressed)>
+23:02:19.78 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3ffb050>>
+23:02:19.78 .......... name = None
+23:02:19.78 .......... preload = ()
+23:02:19.78   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:19.78   24 |         if not callable(handler):
+23:02:19.78   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:19.78   27 |         self.setDaemon(True)
+23:02:19.78   28 |         self._exit = Event()
+23:02:19.78   29 |         self._active = Event()
+23:02:19.78   30 |         self._pause_counter = 0
+23:02:19.78   31 |         self._pause_lock = Lock()
+23:02:19.78   32 |         self._accepting_events = True
+23:02:19.78   33 |         self.queue = queue.Queue()
+23:02:19.78   34 |         self.handle = handler
+23:02:19.78   35 |         self.load(preload)
+23:02:19.78   36 |         self._active.set()
+23:02:19.78 <<< Return value from EventQueue.__init__: None
+23:02:19.78 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:19.78 .......... self = <EventQueue instance at 0x7f31f3ffb190 (repr suppressed)>
+23:02:19.78   38 |     def run(self):
+23:02:19.79   40 |         while not self._exit.isSet():
+23:02:19.79   41 |             self._active.wait()
+23:02:19.79   42 |             event = self.queue.get()
+23:02:19.79   42 |             event = self.queue.get()
+23:02:19.79 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:19.79 .................. len(event) = 108
+23:02:19.79   43 |             if event is StopProcessing:
+23:02:19.79   46 |             try:
+23:02:19.79   47 |                 self.handle(event)
+23:02:19.79   42 |             event = self.queue.get()
+23:02:19.79 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:19.79 .................. len(event) = 108
+23:02:19.79   43 |             if event is StopProcessing:
+23:02:19.79   46 |             try:
+23:02:19.79   47 |                 self.handle(event)
+23:02:19.80   47 |                 self.handle(event)
+23:02:19.80   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:19.80   40 |         while not self._exit.isSet():
+23:02:19.80   41 |             self._active.wait()
+23:02:19.80   42 |             event = self.queue.get()
+23:02:19.80   47 |                 self.handle(event)
+23:02:19.80   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:19.80   40 |         while not self._exit.isSet():
+23:02:19.80   41 |             self._active.wait()
+23:02:19.80   42 |             event = self.queue.get()
+FAIL
+test_text_encryption (__main__.OTRTest) ... 23:02:21.79 .................. event = StopProcessing
+23:02:21.79   43 |             if event is StopProcessing:
+23:02:21.79   44 |                 break
+23:02:21.79 <<< Return value from EventQueue.run: None
+23:02:21.79   42 |             event = self.queue.get()
+23:02:21.79 .................. event = StopProcessing
+23:02:21.79   43 |             if event is StopProcessing:
+23:02:21.79   44 |                 break
+23:02:21.79 <<< Return value from EventQueue.run: None
+23:02:21.94 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:21.94 .......... self = <EventQueue instance at 0x7f31f3ffb910 (repr suppressed)>
+23:02:21.94 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3ff4e50>>
+23:02:21.94 .......... name = None
+23:02:21.94 .......... preload = ()
+23:02:21.94   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:21.94   24 |         if not callable(handler):
+23:02:21.94   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:21.94   27 |         self.setDaemon(True)
+23:02:21.94   28 |         self._exit = Event()
+23:02:21.94   29 |         self._active = Event()
+23:02:21.94   30 |         self._pause_counter = 0
+23:02:21.94   31 |         self._pause_lock = Lock()
+23:02:21.94   32 |         self._accepting_events = True
+23:02:21.94   33 |         self.queue = queue.Queue()
+23:02:21.94   34 |         self.handle = handler
+23:02:21.94   35 |         self.load(preload)
+23:02:21.94   36 |         self._active.set()
+23:02:21.94 <<< Return value from EventQueue.__init__: None
+23:02:21.94 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:21.94 .......... self = <EventQueue instance at 0x7f31f3ffb910 (repr suppressed)>
+23:02:21.94   38 |     def run(self):
+23:02:21.94   40 |         while not self._exit.isSet():
+23:02:21.94   41 |             self._active.wait()
+23:02:21.94   42 |             event = self.queue.get()
+23:02:22.03 >>> Call to EventQueue.__init__ in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 23
+23:02:22.03 .......... self = <EventQueue instance at 0x7f31f3ffb9d0 (repr suppressed)>
+23:02:22.03 .......... handler = <bound method DataConnection._send_handler of <__main__.DataConnection object at 0x7f31f3ffb690>>
+23:02:22.03 .......... name = None
+23:02:22.03 .......... preload = ()
+23:02:22.03   23 |     def __init__(self, handler, name=None, preload=()):
+23:02:22.04   24 |         if not callable(handler):
+23:02:22.04   26 |         Thread.__init__(self, name=name or self.__class__.__name__)
+23:02:22.04   27 |         self.setDaemon(True)
+23:02:22.04   28 |         self._exit = Event()
+23:02:22.04   29 |         self._active = Event()
+23:02:22.04   30 |         self._pause_counter = 0
+23:02:22.04   31 |         self._pause_lock = Lock()
+23:02:22.04   32 |         self._accepting_events = True
+23:02:22.04   33 |         self.queue = queue.Queue()
+23:02:22.04   34 |         self.handle = handler
+23:02:22.04   35 |         self.load(preload)
+23:02:22.04   36 |         self._active.set()
+23:02:22.04 <<< Return value from EventQueue.__init__: None
+23:02:22.04 >>> Call to EventQueue.run in File "/home/bibo/miniconda3/envs/py3-otr/lib/python3.7/site-packages/application/python/queue.py", line 38
+23:02:22.04 .......... self = <EventQueue instance at 0x7f31f3ffb9d0 (repr suppressed)>
+23:02:22.04   38 |     def run(self):
+23:02:22.04   40 |         while not self._exit.isSet():
+23:02:22.04   41 |             self._active.wait()
+23:02:22.04   42 |             event = self.queue.get()
+23:02:22.04   42 |             event = self.queue.get()
+23:02:22.04 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:22.04 .................. len(event) = 108
+23:02:22.04   43 |             if event is StopProcessing:
+23:02:22.04   46 |             try:
+23:02:22.04   47 |                 self.handle(event)
+23:02:22.04   42 |             event = self.queue.get()
+23:02:22.04 .................. event = b'?OTRv23?  I would like to start an Off-the-Recor...onversation, but you do not seem to support that.'
+23:02:22.04 .................. len(event) = 108
+23:02:22.04   43 |             if event is StopProcessing:
+23:02:22.04   46 |             try:
+23:02:22.04   47 |                 self.handle(event)
+23:02:22.05   47 |                 self.handle(event)
+23:02:22.05   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:22.05   40 |         while not self._exit.isSet():
+23:02:22.05   41 |             self._active.wait()
+23:02:22.05   42 |             event = self.queue.get()
+23:02:22.05   47 |                 self.handle(event)
+23:02:22.05   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:22.05   40 |         while not self._exit.isSet():
+23:02:22.05   41 |             self._active.wait()
+23:02:22.05   42 |             event = self.queue.get()
+23:02:24.04   42 |             event = self.queue.get()
+23:02:24.04 .................. event = b'hello'
+23:02:24.04 .................. len(event) = 5
+23:02:24.04   43 |             if event is StopProcessing:
+23:02:24.04   46 |             try:
+23:02:24.04   47 |                 self.handle(event)
+23:02:24.04   42 |             event = self.queue.get()
+23:02:24.04 .................. event = b'test'
+23:02:24.04 .................. len(event) = 4
+23:02:24.04   43 |             if event is StopProcessing:
+23:02:24.04   46 |             try:
+23:02:24.04   47 |                 self.handle(event)
+23:02:24.05   47 |                 self.handle(event)
+23:02:24.05   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:24.05   40 |         while not self._exit.isSet():
+23:02:24.05   41 |             self._active.wait()
+23:02:24.05   42 |             event = self.queue.get()
+23:02:24.05   47 |                 self.handle(event)
+23:02:24.05   51 |                 del event  # do not reference this event until the next event arrives, in order to allow it to be released
+23:02:24.05   40 |         while not self._exit.isSet():
+23:02:24.05   41 |             self._active.wait()
+23:02:24.06   42 |             event = self.queue.get()
+ok
+
+======================================================================
+FAIL: test_ake_one_way (__main__.OTRTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test.py", line 152, in test_ake_one_way
+    self.assertIs(self.local_endpoint.otr_session.state, OTRState.Encrypted, "AKE failed on local endpoint")
+AssertionError: <OTRState.Plaintext: 'Plaintext'> is not <OTRState.Encrypted: 'Encrypted'> : AKE failed on local endpoint
+
+======================================================================
+FAIL: test_ake_two_way (__main__.OTRTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test.py", line 160, in test_ake_two_way
+    self.assertIs(self.local_endpoint.otr_session.state, OTRState.Encrypted, "AKE failed on local endpoint")
+AssertionError: <OTRState.Plaintext: 'Plaintext'> is not <OTRState.Encrypted: 'Encrypted'> : AKE failed on local endpoint
+
+======================================================================
+FAIL: test_otr_shutdown_one_way (__main__.OTRTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test.py", line 212, in test_otr_shutdown_one_way
+    self.assertIs(self.remote_endpoint.otr_session.state, OTRState.Finished, "Remote session state is not Finished")
+AssertionError: <OTRState.Plaintext: 'Plaintext'> is not <OTRState.Finished: 'Finished'> : Remote session state is not Finished
+
+======================================================================23:02:24.06   42 |             event = self.queue.get()
+23:02:24.06 .................. event = StopProcessing
+23:02:24.06   43 |             if event is StopProcessing:
+23:02:24.06   44 |                 break
+23:02:24.06 <<< Return value from EventQueue.run: None
+23:02:24.06   42 |             event = self.queue.get()
+23:02:24.06 .................. event = StopProcessing
+23:02:24.06   43 |             if event is StopProcessing:
+23:02:24.06   44 |                 break
+23:02:24.06 <<< Return value from EventQueue.run: None
+
+FAIL: test_smp_different_secret (__main__.OTRTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test.py", line 178, in test_smp_different_secret
+    self.assertIs(self.local_endpoint.smp_status, SMPStatus.Success, "SMP was not successful for the local endpoint")
+AssertionError: None is not <SMPStatus.Success: 'Success'> : SMP was not successful for the local endpoint
+
+======================================================================
+FAIL: test_smp_same_secret (__main__.OTRTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test.py", line 168, in test_smp_same_secret
+    self.assertIs(self.local_endpoint.smp_status, SMPStatus.Success, "SMP was not successful for the local endpoint")
+AssertionError: None is not <SMPStatus.Success: 'Success'> : SMP was not successful for the local endpoint
+
+======================================================================
+FAIL: test_smp_unavailable (__main__.OTRTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test.py", line 188, in test_smp_unavailable
+    self.assertIs(self.local_endpoint.smp_status, SMPStatus.Interrupted, "SMP was not aborted for the local endpoint")
+AssertionError: None is not <SMPStatus.Interrupted: 'Interrupted'> : SMP was not aborted for the local endpoint
+
+----------------------------------------------------------------------
+Ran 8 tests in 23.163s
+
+FAILED (failures=6)

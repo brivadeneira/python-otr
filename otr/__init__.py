@@ -1,4 +1,3 @@
-import snoop
 
 from abc import ABCMeta, abstractmethod
 from application.notification import NotificationCenter, NotificationData, IObserver
@@ -48,6 +47,7 @@ class OTRSession(object):
     @property
     def protocol(self):
         return self.__dict__['protocol']
+
 
     @protocol.setter
     def protocol(self, value):
