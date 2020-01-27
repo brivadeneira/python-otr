@@ -7,8 +7,6 @@ from zope.interface import implementer
 from otr.cryptography import PrivateKey
 from otr.exceptions import IgnoreMessage, UnencryptedMessage, OTRError
 from otr.protocol import OTRProtocol, OTRState, SMPStatus, QueryMessage, TaggedPlaintextMessage, ErrorMessage, MessageFragmentHandler
-from otr.__info__ import __project__, __summary__, __webpage__, __version__, __author__, __email__, __license__, __copyright__
-
 
 __all__ = ('OTRSession', 'OTRTransport', 'GenericOTRTransport', 'OTRState', 'SMPStatus')
 
@@ -26,10 +24,9 @@ class GenericOTRTransport(OTRTransport):
     def inject_otr_message(self, message):
         return self._send_message(message)
 
+
 @implementer(IObserver)
 class OTRSession(object):
-
-
     def __init__(self, private_key, transport, supported_versions=OTRProtocol.supported_versions):
         if not isinstance(private_key, PrivateKey):
             raise TypeError("private_key must be a PrivateKey instance")
@@ -47,7 +44,6 @@ class OTRSession(object):
     @property
     def protocol(self):
         return self.__dict__['protocol']
-
 
     @protocol.setter
     def protocol(self, value):
@@ -189,4 +185,3 @@ class OTRSession(object):
 
     def _NH_OTRProtocolSMPVerificationDidEnd(self, notification):
         notification.center.post_notification('OTRSessionSMPVerificationDidEnd', sender=self, data=notification.data)
-

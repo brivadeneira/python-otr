@@ -19,12 +19,14 @@ class PackageInfo(object):
 
 package_info = PackageInfo(os.path.join('otr', '__info__.py'))
 
+
 def requirements():
     install_requires = []
     with open('requirements.txt') as f:
         for line in f:
             install_requires.append(line.strip())
     return install_requires
+
 
 setup(
     name=package_info.__project__,

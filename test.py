@@ -1,13 +1,13 @@
 #!/usr/bin/python
 import time
 import unittest
+from threading import Event
 
+from zope.interface import implementer
 from application import log
 from application.notification import IObserver, NotificationCenter
 from application.python import Null
 from application.python.queue import EventQueue
-from threading import Event
-from zope.interface import implementer
 
 from otr import OTRTransport, OTRSession, OTRState, SMPStatus
 from otr.cryptography import DSAPrivateKey
@@ -104,6 +104,7 @@ class DataConnection(object):
         self.smp_status = notification.data.status
         self.smp_done.set()
 
+
 OTRTransport.register(DataConnection)
 
 
@@ -135,6 +136,7 @@ class OTRTest(unittest.TestCase):
     def tearDownClass(cls):
         cls.notification_observer.stop()
         cls.notification_observer = None
+
     def setUp(self):
         self.local_endpoint = DataConnection('local')
         self.remote_endpoint = DataConnection('remote')

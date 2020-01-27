@@ -1,6 +1,3 @@
-
-
-
 from abc import ABCMeta, abstractmethod, abstractproperty
 from application.python.types import MarkerType
 from application.system import openfile
@@ -473,4 +470,3 @@ class DSASignatureHashContext(hashes.HashContext):
         if self.algorithm.digest_size * 8 > q.bit_length():
             digest = long_to_bytes(bytes_to_long(digest) % q, (q.bit_length() + 7) // 8)
         return digest
-

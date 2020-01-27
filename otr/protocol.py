@@ -51,11 +51,8 @@ class QueryMessage(GlobalMessage):
         if self.versions == {1}:
             return b'?OTR?  {message}'.format(message=message)
         elif 1 in self.versions:
-#            return b'?OTR?v{versions}?  {message}'.format(versions=''.join(str(x) for x in self.versions if x != 1), message=message)
-            vs = self.versions
-            return b'?OTRv%b?  %b' % ( b'?OTRv%b?  %b' % (str.encode(''.join(str(x) for x in self.versions if x != 1))), message)
+            return b'?OTRv%b?  %b' % (b'?OTRv%b?  %b' % (str.encode(''.join(str(x) for x in self.versions if x != 1))), message)
         else:
-#            return b'?OTRv{versions}?  {message}'.format(versions=''.join(str(x) for x in self.versions), message=message)
             return b'?OTRv%b?  %b' % (str.encode(''.join(str(x) for x in self.versions)), message)
 
     @classmethod
@@ -111,12 +108,12 @@ class TaggedPlaintextMessage(GlobalMessage):
 
         version_tags = []
         for position in range(tag_start + 16, len(message), 8):
-            token = message[position:position+8]
+            token = message[position:position + 8]
             if len(token) != 8 or set(token) != {b'\x20', b'\x09'}:
                 break
             version_tags.append(token)
         versions = {version for version, tag in list(cls.__tag__.versions.items()) if tag in version_tags}
-        tag_end = tag_start + 16 + 8*len(version_tags)
+        tag_end = tag_start + 16 + 8 * len(version_tags)
 
         original_message = message[:tag_start] + message[tag_end:]
 
@@ -171,7 +168,6 @@ class EncodedMessage(object, metaclass=EncodedMessageType):
     __header__ = None
 
     def encode(self):
-        #return '?OTR:' + base64_encode(self.__header__ + self.pack_data())[:-1] + '.'
         return b'?OTR:' + base64_encode(self.__header__ + self.pack_data())[:-1] + b'.'
 
     @classmethod
@@ -391,7 +387,7 @@ class MessageFragmentHandler(object):
             self.message = message
             self.k = k
             self.n = n
-        elif k == self.k+1 and n == self.n:
+        elif k == self.k + 1 and n == self.n:
             self.message += message
             self.k = k
         else:
@@ -468,7 +464,7 @@ class SMPMessageTLV(TLVRecord):
         size, mpi_data = read_format('!I', data)
         if size != cls.__size__:
             raise ValueError("Expected {} MPIs, got {}".format(cls.__size__, size))
-        return read_content(mpi_data, *(size*[MPI]))
+        return read_content(mpi_data, * (size * [MPI]))
 
     @abstractmethod
     def new(cls, protocol):
@@ -1391,4 +1387,3 @@ class OTRProtocolVersion3(OTRProtocol):
         if recipient_tag != 0 and (self.local_tag, self.remote_tag) != (recipient_tag, sender_tag):
             raise IgnoreMessage
         return EncodedMessage.get(message_type), message_buffer
-
