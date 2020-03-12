@@ -69,15 +69,16 @@ class QueryMessage(GlobalMessage):
             versions.add(1)
             versions.update(int(x) if str(x).isdigit() else x for x in versions_string)
         elif message.startswith(b'?OTRv'):
-            versions_string, sep, _ = message[5:].partition(b'?')
-            if sep != b'?':
+            #versions_string, sep, _ = message[5:].partition(b'?')
+            versions_string = str(message)[7:].split('?')[0]
+            #if sep != b'?':
+            if '?' not in str(message):
                 raise ValueError("Invalid OTR query message")
             versions.update(int(x) if str(x).isdigit() else x for x in versions_string)
         elif message.startswith(b'?OTR?'):
             versions.add(1)
         else:
             raise ValueError("Invalid OTR query message")
-
         return cls(versions)
 
 
@@ -172,7 +173,7 @@ class EncodedMessage(object, metaclass=EncodedMessageType):
 
     @classmethod
     def decode(cls, message, protocol):
-        if not message.startswith(b'?OTR:') or not message.endswith('.'):
+        if not message.startswith(b'?OTR:') or not message.endswith(b'.'):
             raise ValueError("Not an OTR message")
         try:
             message = base64_decode(message[5:-1])
@@ -257,7 +258,7 @@ class RevealSignatureMessage(EncodedMessage):
 
     @staticmethod
     def unpack_data(message):
-        return read_content(message, Data, Data, '20s')
+        return read_content(message, Data, Data, b'20s')
 
     @classmethod
     def new(cls, protocol):
@@ -287,7 +288,7 @@ class SignatureMessage(EncodedMessage):
 
     @staticmethod
     def unpack_data(message):
-        return read_content(message, Data, '20s')
+        return read_content(message, Data, b'20s')
 
     @classmethod
     def new(cls, protocol):
@@ -324,14 +325,14 @@ class DataMessage(EncodedMessage):
 
     @staticmethod
     def unpack_data(message):
-        return read_content(message, '!BII', MPI, '!Q', Data, '20s', Data)
+        return read_content(message, '!BII', MPI, '!Q', Data, b'20s', Data)
 
     @classmethod
-    def new(cls, protocol, content='', tlv_records=()):
+    def new(cls, protocol, content=b'', tlv_records=()):
         if tlv_records:
-            if '\0' in content:
+            if b'\0' in content:
                 raise ValueError("cannot attach TLVs to a message that has Null bytes in it")
-            content += '\0' + TLVRecords.encode(tlv_records)
+            content += b'\0' + TLVRecords.encode(tlv_records)
         current_dh_key, next_dh_key = protocol.dh_local_private_keys
         sender_keyid, recipient_keyid = DHKeyPair(current_dh_key, protocol.dh_remote_public_keys.latest).id
         session_key = protocol.session_keys[sender_keyid, recipient_keyid]
@@ -457,7 +458,7 @@ class SMPMessageTLV(TLVRecord):
         raise NotImplementedError
 
     def pack_data(self):
-        return pack('!I', self.__size__) + ''.join(pack_mpi(mpi) for mpi in self.mpi_list)
+        return pack('!I', self.__size__) + b''.join(pack_mpi(mpi) for mpi in self.mpi_list)
 
     @classmethod
     def unpack_data(cls, data):
@@ -669,7 +670,7 @@ class ExtraKeyTLV(TLVRecord):
 class TLVRecords(object):
     @staticmethod
     def encode(tlv_list):
-        return ''.join(tlv.encode() for tlv in tlv_list)
+        return b''.join(tlv.encode() for tlv in tlv_list)
 
     @staticmethod
     def decode(buffer):
@@ -747,8 +748,8 @@ class SessionKey(object):
     def new(cls, private_key, public_key):
         secret = powmod(public_key, private_key, private_key.prime)
         secret_string = pack_mpi(secret)
-        key1 = sha1('\x01' + secret_string).digest()[:16]
-        key2 = sha1('\x02' + secret_string).digest()[:16]
+        key1 = sha1(b'\x01' + secret_string).digest()[:16]
+        key2 = sha1(b'\x02' + secret_string).digest()[:16]
         if private_key.public_key > public_key:
             outgoing_key, incoming_key = key1, key2
         else:
@@ -838,35 +839,35 @@ class AuthenticatedKeyExchange(object):
 
     @property
     def session_id(self):
-        return sha256('\x00' + pack_mpi(self.secret)).digest()[:8] if self.secret is not None else None
+        return sha256(b'\x00' + pack_mpi(self.secret)).digest()[:8] if self.secret is not None else None
 
     @property
     def aes_c(self):
-        return sha256('\x01' + pack_mpi(self.secret)).digest()[:16] if self.secret is not None else None
+        return sha256(b'\x01' + pack_mpi(self.secret)).digest()[:16] if self.secret is not None else None
 
     @property
     def aes_cp(self):
-        return sha256('\x01' + pack_mpi(self.secret)).digest()[16:] if self.secret is not None else None
+        return sha256(b'\x01' + pack_mpi(self.secret)).digest()[16:] if self.secret is not None else None
 
     @property
     def mac_m1(self):
-        return sha256('\x02' + pack_mpi(self.secret)).digest() if self.secret is not None else None
+        return sha256(b'\x02' + pack_mpi(self.secret)).digest() if self.secret is not None else None
 
     @property
     def mac_m2(self):
-        return sha256('\x03' + pack_mpi(self.secret)).digest() if self.secret is not None else None
+        return sha256(b'\x03' + pack_mpi(self.secret)).digest() if self.secret is not None else None
 
     @property
     def mac_m1p(self):
-        return sha256('\x04' + pack_mpi(self.secret)).digest() if self.secret is not None else None
+        return sha256(b'\x04' + pack_mpi(self.secret)).digest() if self.secret is not None else None
 
     @property
     def mac_m2p(self):
-        return sha256('\x05' + pack_mpi(self.secret)).digest() if self.secret is not None else None
+        return sha256(b'\x05' + pack_mpi(self.secret)).digest() if self.secret is not None else None
 
     @property
     def extra_key(self):
-        return sha256('\xff' + pack_mpi(self.secret)).digest() if self.secret is not None else None
+        return sha256(b'\xff' + pack_mpi(self.secret)).digest() if self.secret is not None else None
 
     @property
     def gy(self):
@@ -921,9 +922,9 @@ class SocialistMillionairesProtocol(object):
     @staticmethod
     def hash(version, mpi1, mpi2=None):
         if mpi2 is None:
-            return bytes_to_long(sha256(chr(version) + pack_mpi(mpi1)).digest())
+            return bytes_to_long(sha256(chr(version).encode() + pack_mpi(mpi1)).digest())
         else:
-            return bytes_to_long(sha256(chr(version) + pack_mpi(mpi1) + pack_mpi(mpi2)).digest())
+            return bytes_to_long(sha256(chr(version).encode() + pack_mpi(mpi1) + pack_mpi(mpi2)).digest())
 
     #
     # The zero-knowledge proofs are described in section 2.3 of the paper "A fair and efficient solution to the socialist millionaires' problem",
@@ -1016,12 +1017,12 @@ class OTRProtocolType(ABCMeta):
         return slice(5, 9)
 
     @classmethod
-    def with_version(mcls, version):
-        return mcls.__classes__[version]
+    def with_version(mcs, version):
+        return mcs.__classes__[version]
 
     @classmethod
-    def with_marker(mcls, marker):
-        return mcls.__markers__[marker]
+    def with_marker(mcs, marker):
+        return mcs.__markers__[marker]
 
 
 class OTRProtocol(object, metaclass=OTRProtocolType):
@@ -1088,7 +1089,7 @@ class OTRProtocol(object, metaclass=OTRProtocolType):
             notification_center.post_notification('OTRProtocolSMPVerificationDidNotStart', sender=self, data=NotificationData(reason='in progress'))
         else:
             self.smp.question = question
-            self.smp.secret = bytes_to_long(sha256('\1' + self.local_private_key.public_key.fingerprint + self.remote_public_key.fingerprint + self.session_id + secret).digest())
+            self.smp.secret = bytes_to_long(sha256(b'\1' + self.local_private_key.public_key.fingerprint + self.remote_public_key.fingerprint + self.session_id + secret.encode()).digest())
             self.send_tlv(SMPMessage1.new(self) if question is None else SMPMessage1Q.new(self, question))
             self.smp.state = SMPState.ExpectMessage2
             notification_center.post_notification('OTRProtocolSMPVerificationDidStart', sender=self, data=NotificationData(originator='local', question=question))

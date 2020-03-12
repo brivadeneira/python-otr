@@ -117,7 +117,6 @@ class OTRSession(object):
             content = self.fragment_handler.process(content, protocol=self.protocol)
         else:
             self.fragment_handler.reset()
-
         # handle OTR messages
         if content.startswith(b'?OTR:'):
             if self.protocol is None and self.sent_query and content[OTRProtocol.marker_slice] in OTRProtocol.commit_markers:

@@ -403,7 +403,7 @@ class DSAPublicKey(PublicKey):
         if not isinstance(hash_context, hashes.HashContext):
             raise TypeError("hash_context must be an instance of hashes.HashContext.")
         size = self.public_numbers.parameter_numbers.q.bit_length() // 8
-        r, s = (bytes_to_long(value) for value in read_content(signature, '{0}s{0}s'.format(size)))
+        r, s = (bytes_to_long(value) for value in read_content(signature, '{0}s{0}s'.format(size).encode()))
         # r, s = (bytes_to_long(value) for value in read_content(signature, '20s20s'))
         hash_context.update(data)
         digest = hash_context.finalize()
