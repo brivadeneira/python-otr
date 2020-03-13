@@ -69,9 +69,7 @@ class QueryMessage(GlobalMessage):
             versions.add(1)
             versions.update(int(x) if str(x).isdigit() else x for x in versions_string)
         elif message.startswith(b'?OTRv'):
-            #versions_string, sep, _ = message[5:].partition(b'?')
             versions_string = str(message)[7:].split('?')[0]
-            #if sep != b'?':
             if '?' not in str(message):
                 raise ValueError("Invalid OTR query message")
             versions.update(int(x) if str(x).isdigit() else x for x in versions_string)
@@ -325,7 +323,7 @@ class DataMessage(EncodedMessage):
 
     @staticmethod
     def unpack_data(message):
-        return read_content(message, '!BII', MPI, '!Q', Data, b'20s', Data)
+        return read_content(message, b'!BII', MPI, b'!Q', Data, b'20s', Data)
 
     @classmethod
     def new(cls, protocol, content=b'', tlv_records=()):
@@ -339,7 +337,7 @@ class DataMessage(EncodedMessage):
         session_key.outgoing_counter += 1
         header = protocol.encode_header(cls)
         encrypted_message = AESCounterCipher(session_key.outgoing_key, session_key.outgoing_counter).encrypt(content)
-        old_macs = ''.join(protocol.session_keys.old_macs)
+        old_macs = ''.join(str(old_mac) for old_mac in protocol.session_keys.old_macs)
         protocol.session_keys.old_macs = []
         return cls(0, sender_keyid, recipient_keyid, next_dh_key.public_key, session_key.outgoing_counter, encrypted_message, CalculateMAC(key=session_key.outgoing_mac), old_macs, header)
 
@@ -429,6 +427,8 @@ class TLVRecord(object, metaclass=TLVRecordType):
 
     def encode(self):
         data = self.pack_data()
+        if not data:
+            data = b''
         return self.__header__.pack(self.__type__, len(data)) + data
 
     @classmethod
@@ -728,7 +728,7 @@ class DHKeyQueue(object):
         self.__dirty__ = True
 
 
-class SessionKeyMAC(str):
+class SessionKeyMAC(bytes):
     def __new__(cls, key):
         instance = super(SessionKeyMAC, cls).__new__(cls, sha1(key).digest())
         instance.used = False
@@ -1096,7 +1096,7 @@ class OTRProtocol(object, metaclass=OTRProtocolType):
 
     def smp_answer(self, secret):
         if self.smp.state is SMPState.AwaitingUserSecret:
-            self.smp.secret = bytes_to_long(sha256('\1' + self.remote_public_key.fingerprint + self.local_private_key.public_key.fingerprint + self.session_id + secret).digest())
+            self.smp.secret = bytes_to_long(sha256(b'\1' + self.remote_public_key.fingerprint + self.local_private_key.public_key.fingerprint + self.session_id + secret.encode()).digest())
             self.smp.pa = self.smp.g3 ** self.smp.r                             # pa = g3^r
             self.smp.qa = self.smp.r.public_key * self.smp.g2**self.smp.secret  # qa = g1^r * g2^secret
             self.send_tlv(SMPMessage2.new(self))
@@ -1269,8 +1269,8 @@ class OTRProtocol(object, metaclass=OTRProtocolType):
                 self.dh_remote_public_keys.add(DHPublicKey(message.next_public_key))
             content = AESCounterCipher(session_key.incoming_key, session_key.incoming_counter).decrypt(message.encrypted_message)
             if message.content_type.startswith('text/'):
-                content, sep, tlv_data = content.partition('\0')
-                if sep == '\0':
+                content, sep, tlv_data = content.partition(b'\0')
+                if sep == b'\0':
                     try:
                         tlv_records = TLVRecords.decode(tlv_data)
                     except ValueError:

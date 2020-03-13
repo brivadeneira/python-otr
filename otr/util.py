@@ -27,7 +27,11 @@ def long_to_bytes(number, length=1):
 
 
 def pack_data(data):
-    return pack('!I', len(data)) + data
+    if not data:
+        data = b''
+    if type(data) is not bytes:
+        data = data[2:-1].encode()
+    return pack(b'!I', len(data)) + data
 
 
 def pack_mpi(mpi):
